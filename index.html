@@ -1,285 +1,545 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ficha Fiscal Técnica - Fibra PRO</title>
+
+<title>FISCALIZAÇÃO PREVENTIVA - ORDENS TÉCNICAS</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
-:root {
-  --primary-red:#ff0000;
-  --dark-bg:#000;
-  --card-bg:#0a0a0a;
-  --input-border:#333;
+
+body{
+font-family:Segoe UI;
+background:#000;
+color:white;
+margin:0;
+padding:20px;
 }
-body {
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background:var(--dark-bg);
-  color:#fff;
-  margin:0;
-  padding:15px;
+
+.container{
+max-width:900px;
+margin:auto;
+background:#0a0a0a;
+padding:25px;
+border-radius:12px;
+border:1px solid #222;
 }
-.container {
-  max-width:600px;
-  margin:auto;
-  background:var(--card-bg);
-  padding:20px;
-  border-radius:10px;
-  border:1px solid #222;
+
+.header{
+background:#ff0000;
+padding:15px;
+border-radius:8px;
+text-align:center;
+margin-bottom:20px;
 }
-.header {
-  background:var(--primary-red);
-  padding:15px;
-  border-radius:8px;
-  margin-bottom:20px;
-  text-align:center;
+
+.header h1{
+margin:0;
+font-size:20px;
 }
-.header h1 {
-  margin:0;
-  font-size:18px;
-  color:white;
-  text-transform:uppercase;
-  letter-spacing:1px;
+
+label{
+font-size:11px;
+color:#ff0000;
+font-weight:bold;
+display:block;
+margin-bottom:5px;
 }
-label {
-  font-size:12px;
-  color:var(--primary-red);
-  font-weight:bold;
-  display:block;
-  margin-bottom:5px;
-  text-transform:uppercase;
+
+input,textarea{
+width:100%;
+padding:12px;
+margin-bottom:15px;
+border-radius:6px;
+border:1px solid #333;
+background:#050505;
+color:white;
 }
-input, textarea {
-  width:100%;
-  padding:12px;
-  margin-bottom:15px;
-  border-radius:6px;
-  border:1px solid var(--input-border);
-  background:#050505;
-  color:white;
-  box-sizing:border-box;
-  font-size:14px;
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
 }
-table {
-  width:100%;
-  border-collapse:collapse;
-  margin-top:10px;
+
+th{
+font-size:11px;
+color:#666;
+text-transform:uppercase;
+padding:10px;
+border-bottom:1px solid #222;
 }
-th, td {
-  text-align:left;
-  padding:8px;
-  font-size:12px;
+
+td{
+padding:10px;
+border-bottom:1px solid #111;
+font-size:13px;
 }
-th { color:#aaa; border-bottom:1px solid #333; }
-td { border-bottom:1px solid #111; }
-.btn-group {
-  display:flex;
-  gap:5px;
-  flex-wrap:wrap;
-  justify-content:flex-end;
+
+.btn-group{
+display:flex;
+gap:5px;
+justify-content:flex-end;
 }
-.status-btn {
-  flex:1;
-  font-size:12px;
-  padding:8px;
-  border-radius:20px;
-  cursor:pointer;
-  border:1px solid #333;
-  background:#1a1a1a;
-  color:#888;
-  transition:0.3s;
+
+.status-btn{
+font-size:11px;
+padding:5px 10px;
+border-radius:20px;
+cursor:pointer;
+border:1px solid #333;
+background:#1a1a1a;
+color:#888;
 }
-.status-btn.selected {
-  background:var(--primary-red);
-  color:white;
-  border-color:var(--primary-red);
+
+.status-btn:hover{
+background:#333;
+color:white;
 }
-.camera-controls {
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  margin-bottom:15px;
+
+.status-btn.selected{
+background:#ff0000;
+color:white;
+border-color:#ff0000;
 }
-.action-btn {
-  background:#1a1a1a;
-  color:white;
-  border:1px dashed #444;
-  padding:12px;
-  border-radius:8px;
-  cursor:pointer;
-  font-size:14px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:5px;
+
+.camera-controls{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-bottom:15px;
 }
-.action-btn:hover { background:#222; }
-#preview {
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(90px,1fr));
-  gap:8px;
-  margin-top:10px;
+
+.action-btn{
+background:#1a1a1a;
+color:white;
+border:1px dashed #444;
+padding:15px;
+border-radius:8px;
+cursor:pointer;
 }
-#preview img { width:100%; height:80px; object-fit:cover; border-radius:6px; border:1px solid #333; }
-.pdf-btn {
-  width:100%;
-  background:var(--primary-red);
-  color:white;
-  padding:15px;
-  border:none;
-  border-radius:8px;
-  font-weight:bold;
-  font-size:16px;
-  cursor:pointer;
-  margin-top:20px;
+
+#preview{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+gap:10px;
+margin-top:10px;
 }
-video {
-  width:100%;
-  border-radius:6px;
-  margin-bottom:10px;
-  display:none;
+
+.foto-box{
+position:relative;
 }
-#contadorObs { font-size:10px; text-align:right; color:#555; }
-@media(max-width:400px){
-  .status-btn { font-size:11px; padding:6px; }
-  input, textarea { font-size:13px; padding:10px; }
-  .action-btn { font-size:12px; padding:10px; }
+
+.foto-box img{
+width:100%;
+height:110px;
+object-fit:cover;
+border-radius:6px;
+border:1px solid #333;
 }
+
+.btn-excluir{
+position:absolute;
+top:5px;
+right:5px;
+background:red;
+color:white;
+border:none;
+border-radius:50%;
+width:22px;
+height:22px;
+cursor:pointer;
+font-size:12px;
+}
+
+.pdf-btn{
+width:100%;
+background:#ff0000;
+color:white;
+padding:15px;
+border:none;
+border-radius:8px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+margin-top:25px;
+}
+
+video{
+width:100%;
+border-radius:8px;
+margin-bottom:10px;
+display:none;
+}
+
 </style>
+
 </head>
+
 <body>
 
 <div class="container">
-  <div class="header">
-    <h1><i class="fa-regular fa-clipboard-check"></i> FICHA FISCAL TÉCNICA</h1>
-  </div>
 
-  <div style="display:grid; grid-template-columns:1fr; gap:10px;">
-    <div><label>Nome do Cliente</label><input id="cliente" placeholder="Ex: Manuel"></div>
-    <div><label>Nome do Técnico</label><input id="tecnico" placeholder="Ex: Lucas"></div>
-    <div><label>Fiscal do Dia</label><input id="fiscal" placeholder="Ex: Joel"></div>
-    <div><label>Data da Visita</label><input type="date" id="data"></div>
-  </div>
+<div class="header">
+<h1><i class="fa-regular fa-clipboard-check"></i> Instalação Fibra PRO</h1>
+</div>
 
-  <h3 style="color:var(--primary-red); font-size:14px; margin-top:15px;">CHECKLIST DE VERIFICAÇÃO</h3>
-  <div style="overflow-x:auto;">
-  <table>
-    <thead><tr><th>#</th><th>Verificação</th><th>Status</th></tr></thead>
-    <tbody id="tabela"></tbody>
-  </table>
-  </div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;">
 
-  <div>
-    <label>Observações</label>
-    <textarea id="observacoes" maxlength="3000" rows="4" placeholder="Descreva detalhes importantes..."></textarea>
-    <div id="contadorObs">0 / 3000</div>
-  </div>
+<div>
+<label>Nome do Cliente</label>
+<input id="cliente">
+</div>
 
-  <label>Fotos da Instalação (Máx 15)</label>
-  <div class="camera-controls">
-    <button class="action-btn" onclick="abrirCamera()"><i class="fa-solid fa-camera"></i> Abrir Câmera</button>
-    <button class="action-btn" onclick="abrirGaleria()"><i class="fa-solid fa-image"></i> Galeria</button>
-  </div>
+<div>
+<label>Nome do Técnico</label>
+<input id="tecnico">
+</div>
 
-  <video id="camera" autoplay playsinline></video>
-  <div id="btnTirarFoto" style="display:none; gap:10px; margin-bottom:15px;">
-    <button class="pdf-btn" style="margin:0; flex:2" onclick="tirarFoto()">CAPTURAR FOTO</button>
-    <button class="action-btn" style="flex:1" onclick="fecharCamera()">CANCELAR</button>
-  </div>
+<div>
+<label>Fiscal do Dia</label>
+<input id="fiscal">
+</div>
 
-  <input type="file" id="galeria" accept="image/*" multiple style="display:none">
-  <canvas id="canvas" style="display:none"></canvas>
-  <div id="preview"></div>
+<div>
+<label>Data da Visita</label>
+<input type="date" id="data">
+</div>
 
-  <button onclick="gerarPDF()" class="pdf-btn">GERAR RELATÓRIO PDF</button>
+</div>
+
+<h3 style="color:#ff0000">Checklist de Verificação</h3>
+
+<table>
+
+<thead>
+<tr>
+<th>#</th>
+<th>Verificação</th>
+<th style="text-align:right">Status</th>
+</tr>
+</thead>
+
+<tbody id="tabela"></tbody>
+
+</table>
+
+<label>Observações</label>
+
+<textarea id="observacoes" maxlength="3000"></textarea>
+
+<div id="contadorObs" style="text-align:right;font-size:11px;color:#666;">0 / 3000</div>
+
+<label>Fotos da Instalação</label>
+
+<div class="camera-controls">
+
+<button class="action-btn" onclick="abrirCamera()">
+<i class="fa-solid fa-camera"></i> Abrir Câmera
+</button>
+
+<button class="action-btn" onclick="abrirGaleria()">
+<i class="fa-solid fa-image"></i> Galeria
+</button>
+
+</div>
+
+<video id="camera" autoplay playsinline></video>
+
+<div id="btnTirarFoto" style="display:none;gap:10px;margin-bottom:10px;">
+
+<button class="pdf-btn" style="margin:0" onclick="tirarFoto()">Capturar Foto</button>
+
+<button class="action-btn" onclick="fecharCamera()">Cancelar</button>
+
+</div>
+
+<input type="file" id="galeria" accept="image/*" multiple style="display:none">
+
+<canvas id="canvas" style="display:none"></canvas>
+
+<div id="preview"></div>
+
+<button onclick="gerarPDF()" class="pdf-btn">Gerar Relatório PDF</button>
+
 </div>
 
 <script>
+
 const verificacoes=[
-"Acomodação da fibra na CTO","Identificação do DROP","CTO correta conforme projeto",
-"Identificação da CTO","Organização interna da CTO","Trajeto do DROP",
-"Fixação em fachada","Entrada do cabo na residência","Instalação do PTO",
-"Teste WiFi","Parâmetros da fibra","Cliente orientado sobre WiFi",
-"Organização geral da instalação","Uso de EPI pelo técnico","Registro fotográfico",
+"Acomodação da fibra na CTO",
+"Identificação do DROP",
+"CTO correta conforme projeto",
+"Identificação da CTO",
+"Organização interna da CTO",
+"Trajeto do DROP",
+"Fixação em fachada",
+"Entrada do cabo na residência",
+"Instalação do PTO",
+"Teste WiFi",
+"Parâmetros da fibra",
+"Cliente orientado sobre WiFi",
+"Organização geral da instalação",
+"Uso de EPI pelo técnico",
+"Registro fotográfico",
 "Qualidade final da instalação"
 ];
+
 const tabela=document.getElementById("tabela");
+
 verificacoes.forEach((v,i)=>{
-  tabela.innerHTML+=`<tr>
-    <td style="color:#555">${i+1}</td>
-    <td>${v}</td>
-    <td>
-      <div class="btn-group">
-        <button class="status-btn" data-valor="Sim" onclick="selecionar(this)">Sim</button>
-        <button class="status-btn" data-valor="Não" onclick="selecionar(this)">Não</button>
-        <button class="status-btn" data-valor="N/A" onclick="selecionar(this)">N/A</button>
-      </div>
-    </td>
-  </tr>`;
+
+tabela.innerHTML+=`
+
+<tr>
+<td>${i+1}</td>
+<td>${v}</td>
+<td>
+
+<div class="btn-group">
+<button class="status-btn" data-valor="Sim" onclick="selecionar(this)">Sim</button>
+<button class="status-btn" data-valor="Não" onclick="selecionar(this)">Não</button>
+<button class="status-btn" data-valor="N/A" onclick="selecionar(this)">N/A</button>
+</div>
+
+</td>
+</tr>
+
+`;
+
 });
+
 function selecionar(btn){
-  btn.parentNode.querySelectorAll(".status-btn").forEach(s=>s.classList.remove("selected"));
-  btn.classList.add("selected");
+
+btn.parentNode.querySelectorAll(".status-btn")
+.forEach(b=>b.classList.remove("selected"));
+
+btn.classList.add("selected");
+
 }
 
-// Câmera e fotos
-let fotos=[]; const video=document.getElementById("camera"); const btnCaptura=document.getElementById("btnTirarFoto"); let streamCamera=null;
-async function abrirCamera(){try{streamCamera=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});video.srcObject=streamCamera; video.style.display="block"; btnCaptura.style.display="flex";}catch(err){alert("Erro ao acessar câmera.");}}
-function fecharCamera(){ if(streamCamera) streamCamera.getTracks().forEach(t=>t.stop()); video.style.display="none"; btnCaptura.style.display="none";}
-function tirarFoto(){ if(fotos.length>=15){alert("Limite de fotos atingido."); return;} const canvas=document.getElementById("canvas"); canvas.width=video.videoWidth; canvas.height=video.videoHeight; canvas.getContext("2d").drawImage(video,0,0); fotos.push(canvas.toDataURL("image/jpeg",0.7)); mostrarPreview();}
-function abrirGaleria(){ document.getElementById("galeria").click(); }
-document.getElementById("galeria").onchange=function(e){for(let file of e.target.files){if(fotos.length>=15) break; let reader=new FileReader(); reader.onload=(ev)=>{ fotos.push(ev.target.result); mostrarPreview(); }; reader.readAsDataURL(file);}}
-function mostrarPreview(){ document.getElementById("preview").innerHTML=fotos.map(f=>`<img src="${f}">`).join('');}
+const obs=document.getElementById("observacoes");
+const contador=document.getElementById("contadorObs");
 
-// PDF
+obs.addEventListener("input",function(){
+contador.innerText=obs.value.length+" / 3000";
+});
+
+let fotos=[];
+let video=document.getElementById("camera");
+let streamCamera=null;
+
+async function abrirCamera(){
+
+streamCamera=await navigator.mediaDevices.getUserMedia({
+video:{facingMode:"environment"}
+});
+
+video.srcObject=streamCamera;
+video.style.display="block";
+
+document.getElementById("btnTirarFoto").style.display="flex";
+
+}
+
+function fecharCamera(){
+
+if(streamCamera){
+streamCamera.getTracks().forEach(t=>t.stop());
+}
+
+video.style.display="none";
+document.getElementById("btnTirarFoto").style.display="none";
+
+}
+
+function tirarFoto(){
+
+if(fotos.length>=15){
+alert("Limite de 15 fotos");
+return;
+}
+
+let canvas=document.getElementById("canvas");
+
+canvas.width=video.videoWidth;
+canvas.height=video.videoHeight;
+
+canvas.getContext("2d").drawImage(video,0,0);
+
+fotos.push(canvas.toDataURL("image/jpeg",0.7));
+
+mostrarPreview();
+
+}
+
+function abrirGaleria(){
+document.getElementById("galeria").click();
+}
+
+document.getElementById("galeria").onchange=function(e){
+
+for(let file of e.target.files){
+
+if(fotos.length>=15)break;
+
+let reader=new FileReader();
+
+reader.onload=(ev)=>{
+fotos.push(ev.target.result);
+mostrarPreview();
+};
+
+reader.readAsDataURL(file);
+
+}
+
+};
+
+function mostrarPreview(){
+
+const p=document.getElementById("preview");
+
+p.innerHTML="";
+
+fotos.forEach((foto,index)=>{
+
+p.innerHTML+=`
+
+<div class="foto-box">
+<img src="${foto}">
+<button class="btn-excluir" onclick="removerFoto(${index})">✖</button>
+</div>
+
+`;
+
+});
+
+}
+
+function removerFoto(index){
+
+fotos.splice(index,1);
+mostrarPreview();
+
+}
+
+async function compartilharPDF(doc){
+
+let tecnico=document.getElementById("tecnico").value.trim();
+let cliente=document.getElementById("cliente").value.trim();
+let data=document.getElementById("data").value;
+
+if(!tecnico) tecnico="Tecnico";
+if(!cliente) cliente="Cliente";
+if(!data) data="Data";
+
+let nomeArquivo=tecnico+"_"+cliente+"_"+data+".pdf";
+
+nomeArquivo=nomeArquivo.replace(/\s+/g,"_");
+
+const blob=doc.output("blob");
+
+const file=new File([blob],nomeArquivo,{type:"application/pdf"});
+
+if(navigator.canShare && navigator.canShare({files:[file]})){
+
+try{
+
+await navigator.share({
+title:"Relatório de Instalação",
+text:"Relatório da instalação técnica",
+files:[file]
+});
+
+}catch(e){
+console.log("Compartilhamento cancelado");
+}
+
+}else{
+
+doc.save(nomeArquivo);
+
+}
+
+}
+
 function gerarPDF(){
-  const {jsPDF}=window.jspdf; const doc=new jsPDF();
-  const cliente=document.getElementById("cliente").value||"Nao_Informado";
-  const tecnico=document.getElementById("tecnico").value||"Sem_Tecnico";
-  const fiscal=document.getElementById("fiscal").value||"Sem_Fiscal";
-  const data=document.getElementById("data").value||"Sem_Data";
 
-  doc.setFontSize(18); doc.setTextColor(255,0,0);
-  doc.text("FICHA FISCAL TÉCNICA",20,20);
-  doc.setFontSize(10); doc.setTextColor(0);
-  doc.text(`Cliente: ${cliente}`,20,35);
-  doc.text(`Técnico: ${tecnico}`,20,42);
-  doc.text(`Fiscal: ${fiscal}`,20,49);
-  doc.text(`Data: ${data}`,20,56);
+const {jsPDF}=window.jspdf;
 
-  const dadosTabela=verificacoes.map((v,i)=>{
-    const btn=document.querySelectorAll("#tabela tr")[i].querySelector(".status-btn.selected");
-    return [i+1,v,btn ? btn.getAttribute("data-valor"):"---"];
-  });
+let doc=new jsPDF();
 
-  doc.autoTable({ startY:65, head:[['#','Verificação','Status']], body:dadosTabela, theme:'striped', headStyles:{fillColor:[255,0,0]} });
+doc.setFontSize(16);
+doc.text("RELATÓRIO DE INSTALAÇÃO FIBRA",20,20);
 
-  let currentY=doc.lastAutoTable.finalY+15;
-  doc.text("OBSERVAÇÕES:",20,currentY);
-  doc.setFontSize(9);
-  const obsLines=doc.splitTextToSize(document.getElementById("observacoes").value||"Sem observações.",170);
-  doc.text(obsLines,20,currentY+7);
-  currentY+=(obsLines.length*5)+20;
+doc.setFontSize(10);
 
-  fotos.forEach((img,index)=>{
-    if(currentY>240){ doc.addPage(); currentY=20; }
-    doc.text(`Foto ${index+1}:`,20,currentY-5);
-    doc.addImage(img,'JPEG',20,currentY,80,60);
-    if(index%2===0 && fotos[index+1]) doc.addImage(fotos[index+1],'JPEG',110,currentY,80,60);
-    if(index%2!==0) currentY+=75;
-  });
+doc.text("Cliente: "+document.getElementById("cliente").value,20,35);
+doc.text("Técnico: "+document.getElementById("tecnico").value,20,42);
+doc.text("Fiscal: "+document.getElementById("fiscal").value,20,49);
+doc.text("Data: "+document.getElementById("data").value,20,56);
 
-  const nomeArquivo=`Ficha_${tecnico}_${cliente}_${data}.pdf`.replace(/\s+/g,'_');
-  doc.save(nomeArquivo);
+let dados=verificacoes.map((v,i)=>{
+
+let btn=document.querySelectorAll("#tabela tr")[i].querySelector(".selected");
+
+return[
+i+1,
+v,
+btn?btn.dataset.valor:"---"
+];
+
+});
+
+doc.autoTable({
+startY:65,
+head:[["#","Verificação","Status"]],
+body:dados,
+headStyles:{fillColor:[255,0,0]}
+});
+
+let currentY=doc.lastAutoTable.finalY+10;
+
+doc.text("Observações:",20,currentY);
+
+let texto=doc.splitTextToSize(obs.value||"Sem observações.",170);
+
+doc.text(texto,20,currentY+7);
+
+currentY+=texto.length*5+15;
+
+for(let i=0;i<fotos.length;i++){
+
+if(currentY>240){
+doc.addPage();
+currentY=20;
 }
 
-// Contador de observações
-const obsArea=document.getElementById("observacoes"); const contador=document.getElementById("contadorObs");
-obsArea.addEventListener("input",()=>{ contador.innerText=`${obsArea.value.length} / 3000`; });
+doc.addImage(fotos[i],"JPEG",20,currentY,80,60);
+
+if(fotos[i+1]){
+doc.addImage(fotos[i+1],"JPEG",110,currentY,80,60);
+i++;
+}
+
+currentY+=70;
+
+}
+
+compartilharPDF(doc);
+
+}
+
 </script>
+
 </body>
 </html>
+```
